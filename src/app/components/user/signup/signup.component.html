@@ -1,0 +1,53 @@
+<div class="flex w-full h-screen text-slate-600">
+  <div class="w-full h-full bg-lime-200 p-4">
+    <p class="text-lime-700 font-mono text-4xl">JIT App Registration</p>
+  </div>
+  <div class="w-full h-full">
+    <div class="mr-4 mt-4">
+      <p
+        routerLink="/login"
+        class="flex w-full justify-end items-center cursor-pointer hover:text-lime-500"
+      >
+        Already have an acount? Login.
+      </p>
+    </div>
+
+    <div class="flex flex-col justify-center items-center p-8">
+      <div
+        class="flex flex-col gap-4 p-4 justify-center items-center mt-40 w-3/4"
+      >
+        <div class="input__container">
+          <p>First Name</p>
+          <input class="input__style" type="text" [(ngModel)]="firstName" />
+        </div>
+        <div class="input__container">
+          <p>Last Name</p>
+          <input class="input__style" type="text" [(ngModel)]="lastName" />
+        </div>
+        <div class="input__container">
+          <p>Email</p>
+          <input class="input__style" type="email" [(ngModel)]="email" />
+        </div>
+        <div class="input__container">
+          <p>Password</p>
+          <input class="input__style" type="password" [(ngModel)]="password" />
+        </div>
+        <div class="input__container">
+          <p>Confirm Password</p>
+          <input
+            class="input__style"
+            type="password"
+            [(ngModel)]="confirmPassword"
+          />
+        </div>
+      </div>
+
+      <button
+        class="bg-lime-400 px-12 py-3 rounded-md text-slate-600 hover:bg-lime-700 hover:text-slate-100"
+        (click)="signup()"
+      >
+        Signup
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+.input__style {
+  border: 1px solid #eeeeee;
+  padding: 8px 16px;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+}
+
+.input__container {
+  width: 100%;
+}
