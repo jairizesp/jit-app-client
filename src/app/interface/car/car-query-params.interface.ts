@@ -7,6 +7,7 @@ type SortOrder = 'ASC' | 'DESC';
 export interface CarQueryParams {
   page: number;
   limit: number;
-  sortBy: SortBy;
-  sortOrder: SortOrder;
+  sortBy: string;
+  sortOrder: string;
+  filters: { [key: string]: any };
 }
