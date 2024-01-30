@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ApiResponse } from 'src/app/interface/response/api-response.interface';
 import { UserInformation } from 'src/app/interface/user/user-information.interface';
 import { Login } from 'src/app/interface/user/user-login.interface';
 import { LoginService } from 'src/app/services/user/login.service';
@@ -17,6 +18,8 @@ export class LoginComponent implements OnDestroy {
   subscribe!: Subscription;
   isLoading: boolean = false;
 
+  show_invalid_credentials: boolean = false;
+
   logInDetails!: UserInformation;
 
   constructor(private loginService: LoginService, private router: Router) {}
@@ -31,13 +34,17 @@ export class LoginComponent implements OnDestroy {
     const creds: Login = { email: this.username, password: this.password };
 
     this.subscribe = this.loginService.login(creds).subscribe((res) => {
+      if (res.status !== 200) {
+        this.show_invalid_credentials = true;
+        this.isLoading = false;
+        element.textContent = 'Login';
+        return;
+      }
       this.logInDetails = { token: res.token, user: res.user };
 
       this.isLoading = false;
 
       element.textContent = 'Login';
-
-      console.log(res);
 
       localStorage.setItem('token', JSON.stringify(res.token));
       localStorage.setItem('user', JSON.stringify(res.user));

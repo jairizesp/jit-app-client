@@ -1,0 +1,21 @@
+<div
+  class="absolute border font-semibold text-sm text-slate-600 border-slate-400 top-[105%] right-0 px-1 py-2 w-44 rounded-md bg-white flex flex-col gap-4 justify-center items-center"
+>
+  <div
+    class="cursor-pointer p-2 rounded-md hover:bg-slate-200"
+    (click)="sortAsc()"
+  >
+    <fa-icon [icon]="up"></fa-icon> &nbsp;
+    <span>A <fa-icon [icon]="right"></fa-icon> Z</span>
+    Ascending
+  </div>
+
+  <div
+    class="cursor-pointer p-2 rounded-md hover:bg-slate-200"
+    (click)="sortDesc()"
+  >
+    <fa-icon [icon]="down"></fa-icon> &nbsp;
+    <span>Z <fa-icon [icon]="right"></fa-icon> A</span>
+    Descending
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div
+  *ngIf="isFilterHidden"
+  class="absolute border border-slate-400 top-[105%] right-0 p-4 w-52 rounded-md bg-white flex justify-center items-center"
+>
+  <div
+    *ngIf="isRequestComplete; else spinner"
+    class="flex flex-col gap-4 w-full"
+  >
+    <div class="w-full">
+      <p class="font-semibold text-xs">Make</p>
+      <select
+        #make_value
+        [(ngModel)]="make"
+        name="make-dropdown"
+        id="make-dropdown"
+        class="border border-slate-400 rounded-md w-full p-1"
+        (input)="makeOnChange(make_value.value)"
+      >
+        <option value="">Select filter</option>
+        <option
+          *ngFor="let car_make of carMake"
+          value="{{ car_make.make }}"
+          label="{{ car_make.make | titlecase }}"
+        ></option>
+      </select>
+    </div>
+
+    <div class="w-full">
+      <p class="font-semibold text-xs">Model</p>
+      <select
+        name="make-dropdown"
+        id="make-dropdown"
+        class="border border-slate-400 rounded-md w-full p-1"
+        [(ngModel)]="model"
+      >
+        <option value="">Select filter</option>
+        <option
+          *ngFor="let car_model of carModel"
+          value="{{ car_model.model }}"
+          label="{{ car_model.model | titlecase }}"
+        ></option>
+      </select>
+    </div>
+
+    <div class="w-full">
+      <p class="font-semibold text-xs">Year</p>
+      <input
+        type="text"
+        class="border border-slate-400 rounded-md w-full p-1"
+        [(ngModel)]="year"
+      />
+    </div>
+
+    <!-- [(ngModel)]="model" -->
+
+    <div class="w-full">
+      <p class="font-semibold text-xs">Price Range</p>
+      <p class="font-semibold text-xs">From</p>
+      <input
+        type="text"
+        class="border border-slate-400 rounded-md w-full p-1"
+        [(ngModel)]="from"
+      />
+      <p class="font-semibold text-xs">To</p>
+      <input
+        type="text"
+        class="border border-slate-400 rounded-md w-full p-1"
+        [(ngModel)]="to"
+      />
+    </div>
+
+    <button
+      class="bg-slate-700 rounded-md px-4 py-2 text-white hover:bg-black"
+      (click)="applyFilters()"
+    >
+      Apply Filters
+    </button>
+
+    <button
+      class="bg-slate-500 rounded-md px-4 py-2 text-white hover:bg-black"
+      (click)="clearFilters()"
+    >
+      Clear
+    </button>
+  </div>
+</div>
+
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

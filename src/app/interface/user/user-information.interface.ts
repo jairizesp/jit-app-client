@@ -1,3 +1,5 @@
+import { ApiResponse } from '../response/api-response.interface';
+
 export interface UserDetails {
   user: {
     id: number;
@@ -7,6 +9,6 @@ export interface UserDetails {
   };
 }
 
-export interface UserInformation extends UserDetails {
+export interface UserInformation extends UserDetails, ApiResponse {
   token: string;
 }
