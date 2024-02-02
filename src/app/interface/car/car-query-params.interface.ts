@@ -10,4 +10,5 @@ export interface CarQueryParams {
   sortBy: string;
   sortOrder: string;
   filters: { [key: string]: any };
+  search_term?: string;
 }

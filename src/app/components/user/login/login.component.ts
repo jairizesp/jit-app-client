@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ApiResponse } from 'src/app/interface/response/api-response.interface';
 import { UserInformation } from 'src/app/interface/user/user-information.interface';
 import { Login } from 'src/app/interface/user/user-login.interface';
-import { LoginService } from 'src/app/services/user/login.service';
+import { LoginService } from '../../../services/user/login.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +22,7 @@ export class LoginComponent implements OnDestroy {
 
   logInDetails!: UserInformation;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private loginService: LoginService, public router: Router) {}
 
   login(element: any) {
     this.isLoading = true;

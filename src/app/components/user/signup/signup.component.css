@@ -1,4 +1,4 @@
-.input__style {
+/* .input__style {
   border: 1px solid #eeeeee;
   padding: 8px 16px;
   border-radius: 6px;
@@ -8,4 +8,8 @@
 
 .input__container {
   width: 100%;
+} */
+
+.error {
+  border: 1px solid red;
 }
