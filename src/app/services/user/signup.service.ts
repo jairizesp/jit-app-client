@@ -17,7 +17,11 @@ export class SignupService {
 
   constructor(private _http: HttpClient) {}
 
-  signup(details: Signup): Observable<any> {
-    return this._http.post<any>(this.url, details, httpOptions);
+  signup(details: Signup): Observable<{ status: number; error?: string }> {
+    return this._http.post<{ status: number; error?: string }>(
+      this.url,
+      details,
+      httpOptions
+    );
   }
 }

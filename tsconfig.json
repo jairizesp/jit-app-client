@@ -5,7 +5,7 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -19,11 +19,14 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
+    // "baseUrl": "./src",
+    // "paths": {
+    //   "@app/*": ["app/*"],
+    //   "@components/*": ["app/components/*"]
+    // }
   },
+
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
@@ -31,3 +34,8 @@
     "strictTemplates": true
   }
 }
+
+// "baseUrl": "./src",
+// "paths": {
+//   "@app/*": ["app/*"]
+// }

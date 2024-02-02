@@ -33,27 +33,23 @@ export class HeaderComponent implements OnInit {
       lastName: string;
     };
 
-    if (user_details) user = JSON.parse(user_details);
-
+    try {
+      if (user_details) {
+        user = JSON.parse(user_details);
+      }
+    } catch (error) {
+      console.error('Error parsing user_details:', error);
+    }
     return user;
   }
 
-  // get user(): UserDetails {
-  //   const user_details = localStorage.getItem('user');
-
-  //   if (user_details) {
-  //     this.user_info = JSON.parse(user_details);
-  //   }
-
-  //   return this.user_info;
-  // }
-
-  constructor(private router: Router) {}
+  constructor(public router: Router) {}
 
   ngOnInit(): void {}
 
   logout() {
     localStorage.clear();
+    this.isLogOutVisible = false;
     this.router.navigateByUrl('/login');
   }
 

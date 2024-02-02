@@ -1,6 +1,18 @@
 <div
   class="w-full flex flex-col p-2 justify-center items-center text-slate-700 relative"
 >
+  <app-toast
+    *ngIf="remove_success"
+    toastMessage="Car Deleted"
+    status="danger"
+  ></app-toast>
+
+  <app-toast
+    *ngIf="add_success"
+    toastMessage="Car Added"
+    status="success"
+  ></app-toast>
+
   <section class="w-[70%] h-full mt-10 flex justify-end items-center">
     <div class="flex gap-4">
       <div class="relative text-slate-600">
@@ -45,17 +57,34 @@
           <fa-icon [icon]="plus"></fa-icon> New
         </button>
       </div>
+      <div class="relative">
+        <input
+          [(ngModel)]="search_term"
+          (keyup.enter)="search()"
+          type="text"
+          placeholder="Search"
+          class="p-2 border border-slate-300 rounded-md outline-none pl-8"
+        />
+
+        <fa-icon [icon]="icn_search" class="absolute left-3 top-2"></fa-icon>
+      </div>
     </div>
   </section>
 
-  <section class="w-[70%] mt-8">
+  <section class="w-[67%] flex justify-end mt-8">
+    <p class="font-semibold text-xs text-slate-500">
+      Page {{ params.page }} of {{ max_page }}
+    </p>
+  </section>
+  <section class="w-[70%]">
     <div class="flex w-full justify-end gap-4">
-      <button [disabled]="params.page < 2">
-        <fa-icon
-          (click)="getCarsPreviousPage()"
-          class="text-4xl cursor-pointer"
-          [icon]="arrow_left"
-        ></fa-icon>
+      <button
+        [class.text-slate-400]="params.page < 2"
+        class="text-4xl cursor-pointer"
+        [disabled]="params.page < 2"
+        (click)="getCarsPreviousPage()"
+      >
+        <fa-icon [icon]="arrow_left"></fa-icon>
       </button>
       <input
         #page_number
@@ -64,15 +93,21 @@
         class="outline-none border boder-slate-300 rounded-md w-10 text-center"
         [(ngModel)]="params.page"
       />
-      <button [disabled]="cars.length < 1">
-        <fa-icon
-          (click)="getCarsNextPage()"
-          class="text-4xl cursor-pointer"
-          [icon]="arrow_right"
-          [attr.disabled]="cars.length < 1"
-        ></fa-icon>
+      <button
+        [class.text-slate-400]="params.page === max_page"
+        class="text-4xl cursor-pointer"
+        [disabled]="params.page === max_page"
+        (click)="getCarsNextPage()"
+      >
+        <fa-icon [icon]="arrow_right"></fa-icon>
       </button>
     </div>
+  </section>
+
+  <section class="w-[74%] flex justify-end">
+    <p class="font-semibold text-xs text-slate-500">
+      Displaying {{ start }} to {{ data_length }} of {{ total }} items
+    </p>
   </section>
 
   <section class="flex flex-col">
@@ -86,12 +121,21 @@
         (removeCar)="removeCar($event)"
         (updateCar)="updateCar($event)"
       ></app-cars>
+
+      <div *ngIf="!cars.length">
+        <p class="font-semibold italic text-xl text-slate-600">
+          No result found.
+        </p>
+      </div>
     </div>
   </section>
 </div>
 
 <div *ngIf="isModalVisible">
-  <app-modal (closeModal)="closeModal($event)"></app-modal>
+  <app-modal
+    (closeModal)="closeModal($event)"
+    (add_success)="isAddCarSuccess($event)"
+  ></app-modal>
 </div>
 
 <ng-template #spinner>

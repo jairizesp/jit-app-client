@@ -1,9 +1,14 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CarQueryParams } from 'src/app/interface/car/car-query-params.interface';
 import { Car } from 'src/app/interface/car/car.interface';
-import { getHttpOptions } from 'src/app/shared/utils/http-options';
+import { getHttpOptions } from '../../shared/utils/http-options';
+
+export interface ExtendedCar {
+  data: Car[];
+  total: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +18,7 @@ export class CarService {
 
   constructor(private _http: HttpClient) {}
 
-  getCars(q_params: CarQueryParams): Observable<Car[]> {
+  getCars(q_params: CarQueryParams): Observable<ExtendedCar> {
     let params = new HttpParams()
       .set('page', q_params.page.toString())
       .set('limit', q_params.limit.toString())
@@ -24,12 +29,17 @@ export class CarService {
       params = params.set(key, q_params.filters[key]);
     });
 
-    return this._http.get<Car[]>(this.url, { params, ...getHttpOptions() });
+    return this._http.get<ExtendedCar>(this.url, {
+      params,
+      ...getHttpOptions(),
+    });
+  }
 
-    // return this._http.get<Car[]>(
-    //   `${this.url}?page=${q_params.page}&limit=${q_params.limit}&sortBy=${q_params.sortBy}&sortOrder=${q_params.sortOrder}}`,
-    //   getHttpOptions()
-    // );
+  getCarsBySearch(search_term: string | number): Observable<ExtendedCar> {
+    return this._http.get<ExtendedCar>(
+      `${this.url}/search?search_term=${search_term}`,
+      getHttpOptions()
+    );
   }
 
   getCarMake(): Observable<{ make: string }[]> {
@@ -60,21 +70,30 @@ export class CarService {
     );
   }
 
-  addCar(
-    details: Omit<Car, 'id'>
-  ): Observable<{ error?: string; msg?: string; status: number }> {
-    return this._http.post<{ error?: string; msg?: string; status: number }>(
-      this.url,
-      details,
-      getHttpOptions()
-    );
+  addCar(details: Omit<Car, 'id'>): Observable<any> {
+    return this._http.post<any>(this.url, details, getHttpOptions());
   }
 
   removeCar(id: number): Observable<any> {
     return this._http.delete<any>(`${this.url}/${id}`, getHttpOptions());
   }
 
-  updateCar(car: Car): Observable<Car> {
-    return this._http.put<Car>(`${this.url}/${car.id}`, car, getHttpOptions());
+  updateCar(car: Car): Observable<{ status: number }> {
+    return this._http.put<{ status: number }>(
+      `${this.url}/${car.id}`,
+      car,
+      getHttpOptions()
+    );
+  }
+
+  findCarById(id: number): Observable<Car> {
+    return this._http.get<Car>(`${this.url}/${id}`, getHttpOptions());
+  }
+
+  private carUpdatedSource = new BehaviorSubject<boolean>(false);
+  carUpdated$ = this.carUpdatedSource.asObservable();
+
+  updatedCar() {
+    this.carUpdatedSource.next(true);
   }
 }
